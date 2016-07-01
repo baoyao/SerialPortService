@@ -103,22 +103,21 @@ public class MainActivity extends Activity {
 //		});
 				
 		mBTNSend.setOnClickListener(new View.OnClickListener() {
+			String str;
 			@Override
 			public void onClick(View v) {
 				Log.v("tt","onclick");
-				ProtocolUtils.packageForwardCommand((byte)mProgressZZ,(byte)mProgressYZ, (byte)mProgressTime);
-//				String str;
-//				str = mETData.getText().toString();
-//				byte[] tests = {(byte) (byte)0xF0, (byte)0x20, (byte)0xBC, (byte)0x14, (byte)0x0F};
-//				tests = ProtocolUtils.packageForwardCommand((byte)mProgressZZ,(byte)mProgressYZ, (byte)mProgressTime);
-//				Log.d("yzh","send data is " + str);
-//				try {
-//					//mISerialPortService.write(str.getBytes(), 0, str.getBytes().length);
-//					mISerialPortService.write(tests, 0, tests.length);
-//				} catch (RemoteException e) {
-//					e.printStackTrace();
-//					Log.e("yzh","write error " + e.toString());
-//				}
+				str = mETData.getText().toString();
+				byte[] tests = {(byte) (byte)0xF0, (byte)0x20, (byte)0xBC, (byte)0x14, (byte)0x0F};
+				tests = ProtocolUtils.packageForwardCommand((byte)mProgressZZ,(byte)mProgressYZ, (byte)mProgressTime);
+				Log.d("yzh","send data is " + str);
+				try {
+					//mISerialPortService.write(str.getBytes(), 0, str.getBytes().length);
+					mISerialPortService.write(tests, 0, tests.length);
+				} catch (RemoteException e) {
+					e.printStackTrace();
+					Log.e("yzh","write error " + e.toString());
+				}
 			}
 		});
 		
