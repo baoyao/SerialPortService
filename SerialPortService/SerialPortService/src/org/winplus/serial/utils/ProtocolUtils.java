@@ -26,7 +26,7 @@ public class ProtocolUtils {
 		}
 		datas[2] = commands[1];
 
-		if (commands[2] == 255) {
+		if (commands[2] >= 13) {
 			commands[2] = (byte) 0xff;
 		} else {
 			commands[2] = (byte) ((commands[2] *1000)/50);
