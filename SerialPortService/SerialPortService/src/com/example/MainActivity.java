@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.winplus.serial.utils.ISerialPortService;
-import org.winplus.serial.utils.ProtocolUtils;
+import org.winplus.serial.utils.CommandUtils;
 import org.winplus.serial.utils.SerialPort;
 
 import android.app.Activity;
@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
 				Log.v("tt","onclick");
 				str = mETData.getText().toString();
 				byte[] tests = {(byte) (byte)0xF0, (byte)0x20, (byte)0xBC, (byte)0x14, (byte)0x0F};
-				tests = ProtocolUtils.packageForwardCommand((byte)mProgressZZ,(byte)mProgressYZ, (byte)mProgressTime);
+				tests = CommandUtils.packageCommand((byte)mProgressZZ,(byte)mProgressYZ, (byte)mProgressTime);
 				Log.d("yzh","send data is " + str);
 				try {
 					//mISerialPortService.write(str.getBytes(), 0, str.getBytes().length);
