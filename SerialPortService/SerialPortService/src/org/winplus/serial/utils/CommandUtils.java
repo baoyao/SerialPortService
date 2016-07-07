@@ -10,13 +10,16 @@ import android.util.Log;
  */
 public class CommandUtils {
 
-	private static final byte HEAD = (byte) 0xf0;
+	private static final String TAG="tt";
+	
+	private static final byte COMMAND_HEAD_FORWARD = (byte) 0xf0;
+	private static final byte COMMAND_HEAD_LED = (byte) 0xf1;
 
-	private static byte[] packageCommand(byte[] datas) {
-		Log.v("tt","\n\ndata0: "+Arrays.toString(datas));
+	private static byte[] packageForwardCommand(byte[] datas) {
+		Log.v(TAG,"\n\nTemp Forward Commands: "+Arrays.toString(datas));
 		int size = datas.length + 2;
 		byte[] commands = new byte[size];
-		commands[0] = HEAD;
+		commands[0] = COMMAND_HEAD_FORWARD;
 		if (datas[0] < 0) {
 			datas[0] = (byte) ((-datas[0]) | 0x80);
 		}
@@ -39,13 +42,48 @@ public class CommandUtils {
 		}
 		commands[4]=(byte) (0xff-temp);
 
-		Log.v("tt","data1: "+Arrays.toString(commands));
+		Log.v(TAG,"Forward Commands: "+Arrays.toString(commands));
 		return commands;
 	}
 
-	public static byte[] packageCommand(byte progressZZ,
+	public static byte[] packageForwardCommand(byte progressZZ,
 			byte progressYZ, byte progressTime) {
-		return packageCommand(new byte[] { progressZZ, progressYZ, progressTime });
+		return packageForwardCommand(new byte[] { progressZZ, progressYZ, progressTime });
+	}
+	
+	
+	public static byte[] packageLedCommand(){
+		byte[] left = new byte[] { (byte) 0x81, 0x42, 0x42, 0x18, 0x18, 0x24,
+				0x42, (byte) 0x81 };
+		byte[] right = new byte[] { (byte) 0xff, (byte) 0x83, (byte) 0x85,
+				(byte) 0x89, (byte) 0x91, (byte) 0xa1, (byte) 0xc1, (byte) 0xff };
+		byte[] mouth = new byte[] { (byte) 0xff, 0x01, (byte) 0xff,
+				(byte) 0x80, (byte) 0xff, 0x01, (byte) 0xff, (byte) 0xc0 };
+
+		int count = left.length + right.length + mouth.length;
+		byte[] tempCommands = new byte[count];
+		for (int i = 0; i < tempCommands.length; i++) {
+			if (i < left.length) {
+				tempCommands[i] = left[i];
+			} else if (i < (left.length + right.length)) {
+				tempCommands[i] = right[i - (left.length)];
+			} else if (i < (left.length + right.length + mouth.length)) {
+				tempCommands[i] = mouth[i - (left.length + right.length)];
+			}
+		}
+
+		byte lastData1 = COMMAND_HEAD_LED;
+		byte lastData2 = 0;
+		byte[] commands = new byte[count+1];
+		for (int i = 0; i < commands.length; i++) {
+			if(i<tempCommands.length){
+				lastData2 = tempCommands[i];
+			}
+			commands[i] = lastData1;
+			lastData1 = lastData2;
+		}
+		Log.v(TAG,"\n\nLed Commands: "+Arrays.toString(commands));
+		return commands;
 	}
 	
 

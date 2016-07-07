@@ -1,126 +1,128 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    tools:context="${relativePackage}.${activityClass}" >
+    android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/TV_receiveData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:hint="显示接收到的数据" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/TV_receiveData"
-        android:layout_marginTop="50dp"
-        android:text="开始接收数据" />
-
-    <EditText
-        android:id="@+id/ET_data"
-        android:layout_width="400dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/button1"
-        android:layout_marginTop="50dp" />
-
-    <Button
-        android:id="@+id/BTN_send"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ET_data"
-        android:layout_marginTop="20dp"
-        android:text="发送数据" />
+        android:gravity="center_horizontal" >
 
-    <TextView
-        android:id="@+id/zuozhuan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/BTN_send"
-        android:layout_marginTop="12dp"
-        android:text="左轮"/>
-    
-    <SeekBar
-        android:id="@+id/progress_zz"
-        android:layout_width="200dip"
-        android:layout_height="wrap_content"
-        android:max="200"
-        android:progress="100"
-        android:layout_below="@+id/zuozhuan"
-        android:layout_marginTop="10dp" 
-        android:layout_marginLeft="10dp"
-        android:paddingBottom="10dp"/>
-    
-    <TextView
-        android:id="@+id/progress_zz_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/zuozhuan"
-        android:layout_toRightOf="@+id/progress_zz"
-        android:layout_marginTop="12dp" 
-        android:text="0"/>
-    
-    
-    <TextView
-        android:id="@+id/youzhuan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/progress_zz"
-        android:layout_marginTop="12dp"
-        android:text="右轮"/>
-    
-    <SeekBar
-        android:id="@+id/progress_yz"
-        android:layout_width="200dip"
-        android:layout_height="wrap_content"
-        android:max="200"
-        android:progress="100"
-        android:layout_below="@+id/youzhuan"
-        android:layout_marginTop="10dp" 
-        android:layout_marginLeft="10dp"
-        android:paddingBottom="10dp"/>
-    
-    <TextView
-        android:id="@+id/progress_yz_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/youzhuan"
-        android:layout_toRightOf="@+id/progress_yz"
-        android:layout_marginTop="12dp" 
-        android:text="0"/>
-    
-    
-    
-    <TextView
-        android:id="@+id/kongzhi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/progress_yz"
-        android:layout_marginTop="12dp"
-        android:text="控制时间"/>
-    
-    <SeekBar
-        android:id="@+id/progress_time"
-        android:layout_width="200dip"
-        android:layout_height="wrap_content"
-        android:max="13"
-        android:progress="0"
-        android:layout_below="@+id/kongzhi"
-        android:layout_marginTop="10dp" 
-        android:layout_marginLeft="10dp"
-        android:paddingBottom="10dp"/>
-    
-    <TextView
-        android:id="@+id/progress_time_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/kongzhi"
-        android:layout_toRightOf="@+id/progress_time"
-        android:layout_marginTop="12dp" 
-        android:text="运行时间为： 0 秒钟"/>
+        <TextView
+            android:id="@+id/TV_receiveData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:hint="显示接收到的数据" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TV_receiveData"
+            android:layout_marginTop="50dp"
+            android:text="开始接收数据" />
+
+        <Button
+            android:id="@+id/BTN_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button1"
+            android:layout_marginTop="20dp"
+            android:text="发送数据" />
+
+        <TextView
+            android:id="@+id/zuozhuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/BTN_send"
+            android:layout_marginTop="12dp"
+            android:text="左轮" />
+
+        <SeekBar
+            android:id="@+id/progress_zz"
+            android:layout_width="200dip"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/zuozhuan"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:max="200"
+            android:paddingBottom="10dp"
+            android:progress="100" />
+
+        <TextView
+            android:id="@+id/progress_zz_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/zuozhuan"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/progress_zz"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/youzhuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progress_zz"
+            android:layout_marginTop="12dp"
+            android:text="右轮" />
+
+        <SeekBar
+            android:id="@+id/progress_yz"
+            android:layout_width="200dip"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/youzhuan"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:max="200"
+            android:paddingBottom="10dp"
+            android:progress="100" />
+
+        <TextView
+            android:id="@+id/progress_yz_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/youzhuan"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/progress_yz"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/kongzhi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progress_yz"
+            android:layout_marginTop="12dp"
+            android:text="控制时间" />
+
+        <SeekBar
+            android:id="@+id/progress_time"
+            android:layout_width="200dip"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/kongzhi"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:max="13"
+            android:paddingBottom="10dp"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/progress_time_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/kongzhi"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@+id/progress_time"
+            android:text="运行时间为： 0 秒钟" />
+        
+        <Button
+            android:id="@+id/send_display_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progress_time"
+            android:layout_marginTop="12dp"
+            android:text="发送LED灯的显示数据"/>
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,13 +1,7 @@
 package com.example;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import org.winplus.serial.utils.ISerialPortService;
 import org.winplus.serial.utils.CommandUtils;
-import org.winplus.serial.utils.SerialPort;
+import org.winplus.serial.utils.ISerialPortService;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -23,22 +17,40 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends Activity {
 
 	private String path = "/dev/ttyS3";
 	private int baudrate = 115200;
 	private ReadThread mReadThread;
+	@Bind(R.id.TV_receiveData)
 	private TextView mTextView;
+	@Bind(R.id.button1)
 	private Button mButton1;
-	private EditText mETData;
+	@Bind(R.id.BTN_send)
 	private Button mBTNSend;
-	private SeekBar mSeekBarZZ,mSeekBarYZ,mSeekBarTime;
-	private TextView mProgressZZValue,mProgressYZValue,mProgressTimeValue;
+	@Bind(R.id.progress_zz)
+	private SeekBar mSeekBarZZ;
+	@Bind(R.id.progress_yz)
+	private SeekBar mSeekBarYZ;
+	@Bind(R.id.progress_time)
+	private SeekBar mSeekBarTime;
+	@Bind(R.id.progress_zz_value)
+	private TextView mProgressZZValue;
+	@Bind(R.id.progress_yz_value)
+	private TextView mProgressYZValue;
+	@Bind(R.id.progress_time_value)
+	private TextView mProgressTimeValue;
+	@Bind(R.id.send_display_data)
+	private Button sendDisplayData;
+
 	private int mProgressZZ,mProgressYZ,mProgressTime;
 	
 	private boolean isRun = true;
@@ -70,24 +82,11 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		ButterKnife.bind(this);
 
 		bindService(new Intent(ACTION_SERVICE), connection,
 				Context.BIND_AUTO_CREATE);
 
-		mTextView = (TextView) findViewById(R.id.TV_receiveData);
-		mETData = (EditText) findViewById(R.id.ET_data);
-		mBTNSend = (Button) findViewById(R.id.BTN_send);
-		mSeekBarZZ = (SeekBar) findViewById(R.id.progress_zz);
-		mProgressZZValue= (TextView) findViewById(R.id.progress_zz_value);
-
-		mSeekBarYZ = (SeekBar) findViewById(R.id.progress_yz);
-		mProgressYZValue= (TextView) findViewById(R.id.progress_yz_value);
-
-		mSeekBarTime = (SeekBar) findViewById(R.id.progress_time);
-		mProgressTimeValue= (TextView) findViewById(R.id.progress_time_value);
-		
-		mButton1 = (Button)findViewById(R.id.button1);
-		
 //		mButton1.setOnClickListener(new View.OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
@@ -103,14 +102,11 @@ public class MainActivity extends Activity {
 //		});
 				
 		mBTNSend.setOnClickListener(new View.OnClickListener() {
-			String str;
 			@Override
 			public void onClick(View v) {
 				Log.v("tt","onclick");
-				str = mETData.getText().toString();
-				byte[] tests = {(byte) (byte)0xF0, (byte)0x20, (byte)0xBC, (byte)0x14, (byte)0x0F};
-				tests = CommandUtils.packageCommand((byte)mProgressZZ,(byte)mProgressYZ, (byte)mProgressTime);
-				Log.d("yzh","send data is " + str);
+//				byte[] tests = {(byte) (byte)0xF0, (byte)0x20, (byte)0xBC, (byte)0x14, (byte)0x0F};
+				byte[] tests = CommandUtils.packageForwardCommand((byte)mProgressZZ,(byte)mProgressYZ, (byte)mProgressTime);
 				try {
 					//mISerialPortService.write(str.getBytes(), 0, str.getBytes().length);
 					mISerialPortService.write(tests, 0, tests.length);
@@ -225,6 +221,26 @@ public class MainActivity extends Activity {
 			}
 			
 		});
+	}
+
+	@OnClick(value={R.id.send_display_data})
+	private void onButtonClicked(View v) {
+		switch (v.getId()) {
+		case R.id.send_display_data:
+			sendData(CommandUtils.packageLedCommand());
+			break;
+		default:
+			break;
+		}
+	}
+	
+	private void sendData(byte[] datas){
+		try {
+			mISerialPortService.write(datas, 0, datas.length);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			Log.e("yzh","write error2 " + e.toString());
+		}
 	}
 	
 	@Override
