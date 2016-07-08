@@ -37,10 +37,13 @@ public class ButterKnife {
 		Method method = null;
 		try {
 			Field[] fields = obj.getClass().getDeclaredFields();
+			Log.w(TAG, "bind fields" + fields);
 			if ((fields != null) && (fields.length > 0)) {
 				for (int i = 0; i < fields.length; i++) {
 					field = fields[i];
+					Log.w(TAG, "bind field" + field.getName());
 					Bind id = (Bind) field.getAnnotation(Bind.class);
+					Log.w(TAG, "bind id" + id);
 					if (id != null) {
 						boolean setAccessible = false;
 						if (!field.isAccessible()) {
@@ -53,7 +56,9 @@ public class ButterKnife {
 						} else {
 							View view = ((Activity) obj).findViewById(id
 									.value());
+							Log.w(TAG, "bind set1" + view);
 							field.set(obj, view);
+							Log.w(TAG, "bind set2" + view);
 						}
 						if (setAccessible) {
 							field.setAccessible(false);

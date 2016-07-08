@@ -17,30 +17,31 @@ public class CommandUtils {
 
 	private static byte[] packageForwardCommand(byte[] datas) {
 		Log.v(TAG,"\n\nTemp Forward Commands: "+Arrays.toString(datas));
-		int size = datas.length + 2;
+		int size = datas.length + 2+1;
 		byte[] commands = new byte[size];
 		commands[0] = COMMAND_HEAD_FORWARD;
+		commands[1] = (byte) datas.length;
 		if (datas[0] < 0) {
 			datas[0] = (byte) ((-datas[0]) | 0x80);
 		}
-		commands[1] = datas[0];
+		commands[2] = datas[0];
 		if (datas[1] < 0) {
 			datas[1] = (byte) ((-datas[0]) | 0x80);
 		}
-		commands[2] = datas[1];
+		commands[3] = datas[1];
 
 		if (datas[2] >= 13) {
 			datas[2] = (byte) 0xff;
 		} else {
 			datas[2] = (byte) ((datas[2] *1000)/50);
 		}
-		commands[3] = datas[2];
+		commands[4] = datas[2];
 
 		byte temp=0;
 		for (int i = 0; i < datas.length; i++) {
-			temp+=commands[i+1];
+			temp+=commands[i+2];
 		}
-		commands[4]=(byte) (0xff-temp);
+		commands[5]=(byte) (0xff-temp);
 
 		Log.v(TAG,"Forward Commands: "+Arrays.toString(commands));
 		return commands;
@@ -72,15 +73,12 @@ public class CommandUtils {
 			}
 		}
 
-		byte lastData1 = COMMAND_HEAD_LED;
-		byte lastData2 = 0;
-		byte[] commands = new byte[count+1];
-		for (int i = 0; i < commands.length; i++) {
-			if(i<tempCommands.length){
-				lastData2 = tempCommands[i];
-			}
-			commands[i] = lastData1;
-			lastData1 = lastData2;
+		int addIndex = 2;
+		byte[] commands = new byte[count+addIndex];
+		commands[0] = (byte) COMMAND_HEAD_LED;
+		commands[1] = (byte) count;
+		for (int i = addIndex; i < commands.length; i++) {
+			commands[i]=tempCommands[i-addIndex];
 		}
 		Log.v(TAG,"\n\nLed Commands: "+Arrays.toString(commands));
 		return commands;

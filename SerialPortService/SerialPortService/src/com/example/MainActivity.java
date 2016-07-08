@@ -100,7 +100,20 @@ public class MainActivity extends Activity {
 				
 //			}
 //		});
-				
+		
+		if (mBTNSend == null) {
+			mBTNSend = (Button) findViewById(R.id.BTN_send);
+			mTextView = (TextView) findViewById(R.id.TV_receiveData);
+			mSeekBarZZ = (SeekBar) findViewById(R.id.progress_zz);
+			mProgressZZValue = (TextView) findViewById(R.id.progress_zz_value);
+			mSeekBarYZ = (SeekBar) findViewById(R.id.progress_yz);
+			mProgressYZValue = (TextView) findViewById(R.id.progress_yz_value);
+			mSeekBarTime = (SeekBar) findViewById(R.id.progress_time);
+			mProgressTimeValue = (TextView) findViewById(R.id.progress_time_value);
+			mButton1 = (Button) findViewById(R.id.button1);
+			sendDisplayData= (Button) findViewById(R.id.send_display_data);
+		}
+		
 		mBTNSend.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -116,7 +129,6 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
-		
 
 		mSeekBarZZ.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
 
@@ -221,12 +233,22 @@ public class MainActivity extends Activity {
 			}
 			
 		});
+		
+		sendDisplayData.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.v("tt","sendDisplayData onclick");
+				sendData(CommandUtils.packageLedCommand());
+			}
+		});
+		
 	}
 
 	@OnClick(value={R.id.send_display_data})
 	private void onButtonClicked(View v) {
 		switch (v.getId()) {
 		case R.id.send_display_data:
+			Log.v("tt","sendDisplayData onButtonClicked");
 			sendData(CommandUtils.packageLedCommand());
 			break;
 		default:
